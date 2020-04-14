@@ -105,40 +105,44 @@ class DoubleLinked {
       node = node.next
     }
     console.log(arr.join('=>'))
+    return arr.join('=>')
   }
 
 }
 
-const l = new DoubleLinked()
-const nodes = []
-for (let i = 0; i < 10; i++) {
-  nodes.push(new Node(i + 1, i + 1))
-}
-l.appendFront(nodes[0])
-l.print()
-l.appendFront(nodes[1])
-l.print()
-l.appendFront(nodes[2])
-l.print()
-l.appendFront(nodes[3])
-l.print()
-l.appendTail(nodes[4])
-l.print()
-l.appendTail(nodes[5])
-l.print()
-l.appendTail(nodes[6])
-l.print()
-l.remove(nodes[6])
-l.print()
-const delNode = l.remove()
-console.log('delNode', delNode)
-l.print()
-// console.log(nodes[0] === nodes[0])
+// const l = new DoubleLinked()
+// const nodes = []
+// for (let i = 0; i < 10; i++) {
+//   nodes.push(new Node(i + 1, i + 1))
+// }
+// l.appendFront(nodes[0])
 // l.print()
-// l.appendFront(new Node(2, 2))
+// l.appendFront(nodes[1])
 // l.print()
-// l.appendFront(new Node(3, 3))
+// l.appendFront(nodes[2])
 // l.print()
-console.log(l.pophead())
-console.log(l.popTail())
-l.print()
+// l.appendFront(nodes[3])
+// l.print()
+// l.appendTail(nodes[4])
+// l.print()
+// l.appendTail(nodes[5])
+// l.print()
+// l.appendTail(nodes[6])
+// l.print()
+// l.remove(nodes[6])
+// l.print()
+// const delNode = l.remove()
+// console.log('delNode', delNode)
+// l.print()
+// // console.log(nodes[0] === nodes[0])
+// // l.print()
+// // l.appendFront(new Node(2, 2))
+// // l.print()
+// // l.appendFront(new Node(3, 3))
+// // l.print()
+// console.log(l.pophead())
+// console.log(l.popTail())
+// l.print()
+
+exports.Node = Node
+exports.DoubleLinked = DoubleLinked
