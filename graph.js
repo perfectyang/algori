@@ -51,11 +51,30 @@ class Graph {
     }
   }
 
-
   // 2.深度遍历 Depth-First-Search
-  DFS () {}
+  DFS (initV, handler) {
+    const colors = this.initColors()
+    this.DFSNode(initV, colors, handler)
+  }
+
+  DFSNode (v, colors, handler) {
+    colors[v] = 'gray'
+    const vList = this.edgesList[v]
+    handler(v)
+    colors[v] = 'black'
+    for (let i = 0; i < vList.length; i++) {
+      const curV = vList[i]
+      if (colors[curV] === 'white') {
+        this.DFSNode(curV, colors, handler)
+      }
+    }
+  }
+
+
+
+
   initColors () {
-    const colors = []
+    const colors = {}
     for (let i = 0; i < this.vertices.length; i++) {
       colors[this.vertices[i]] = 'white'
       // 给每个顶点添加一个初始状态
@@ -86,7 +105,7 @@ graph.toString()
 
 function print () {
   let str = ''
-  graph.BFS(graph.vertices[0], (v) => {
+  graph.DFS(graph.vertices[0], (v) => {
     // console.log('v', v)
     str += v + ' '
   })
