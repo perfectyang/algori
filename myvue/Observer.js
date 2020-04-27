@@ -50,7 +50,6 @@ class Observer {
     console.log(value, Array.isArray(value))
     def(value, '__ob__', this)
    if (Array.isArray(value)) {
-      console.log('进来了吗-----', methodsProto)
       value.__proto__ = methodsProto
       this.observeArray(value)
     } else { // 是对象
