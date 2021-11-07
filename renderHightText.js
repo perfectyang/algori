@@ -29,4 +29,3 @@ const result = renderHightText(originText, target)
 
 console.log(result)
 
-
