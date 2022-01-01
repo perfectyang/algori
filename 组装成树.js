@@ -15,24 +15,14 @@ function tree (list) {
     const {id, pid} = ob
     if (!itemMap[id]) {
       itemMap[id] = {
+        ...ob,
         children: []
       }
     }
-    itemMap[id] = {
-      ...ob,
-      children: itemMap[id].children
-    }
-    const treeItem = itemMap[id]
-
     if (pid === 0) {
-      result.push(treeItem)
+      result.push(itemMap[id])
     } else {
-      if (!itemMap[pid]) {
-        itemMap[pid] = {
-          children: []
-        }
-      }
-      itemMap[pid].children.push(treeItem)
+      itemMap[pid].children.push(itemMap[id])
     }
   }
   return result
