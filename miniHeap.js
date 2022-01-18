@@ -1,3 +1,4 @@
+// 堆
 class MiniHeap {
   constructor () {
     this.heap = []
@@ -54,10 +55,6 @@ class MiniHeap {
     return node
   }
 
-
-
-
-
 }
 
 class MaxHeap {
@@ -91,9 +88,6 @@ class MaxHeap {
       this.shirUp(parentIndex)
     }
   }
-
-
-  // [1, 2, 3]
   
   shirDown(index) {
     const leftIndex = this.getLeftIndex(index)
@@ -118,25 +112,29 @@ class MaxHeap {
     this.shirDown(0)
     return node
   }
+
+  sort () {
+    const ret = []
+    while (this.heap.length > 1) {
+      ret.push(this.pop())
+    }
+    return ret
+  }
+
 }
 
 
+// class Test {
+//   run () {
+//     console.log(111)
+//   }
+// }
 
-
-
-
-
-
-
-
-
-
+// const t = new Test()
+// t.run()
 
 const instanceHeap = new MiniHeap()
 const instanceMaxHeap = new MaxHeap()
-// instanceHeap.insert(1)
-// instanceHeap.insert(3)
-// instanceHeap.insert(2)
 instanceMaxHeap.insert(1)
 instanceMaxHeap.insert(3)
 instanceMaxHeap.insert(2)
@@ -144,11 +142,9 @@ instanceMaxHeap.insert(5)
 instanceMaxHeap.insert(6)
 instanceMaxHeap.insert(4)
 instanceMaxHeap.insert(1)
-// console.log(instanceMaxHeap.heap)
 
-// console.log('top', instanceMaxHeap.pop())
-
-console.log(instanceMaxHeap.heap)
+const ret = instanceMaxHeap.sort()
+console.log(ret, instanceMaxHeap.heap)
 //         6
 //     5       4
 // 3

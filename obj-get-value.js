@@ -67,12 +67,12 @@ function getTextsAndMap (data, prefix = '') {
 
 const {texts, map} = getTextsAndMap(data)
 
-console.log('直实节点', texts, map)
+// console.log('直实节点', texts, map)
 function recoveryByMap (src, dist, paths) {
   paths.forEach((curpath, key) => {
-    console.log('src', src) // 原数据
-    console.log('curpath', curpath) // 数据的路径
-    console.log('dist[key]', dist[key]) // 要赋值
+    // console.log('src', src) // 原数据
+    // console.log('curpath', curpath) // 数据的路径
+    // console.log('dist[key]', dist[key]) // 要赋值
     set(src, curpath, dist[key]) // 所用lodash赋值
   })
   return src
