@@ -138,18 +138,14 @@ class Tree {
   }
 
   getSuccessor (delNode) {
-    console.log('delNode', delNode)
     let successor = delNode.right
     let successorParent = delNode.right
 
     while (successor.left !== null) {
-      console.log('进来吗')
       successorParent = successor
       successor = successor.left
     }
-    console.log('successor', successor)
     if (delNode.right !== successor) {
-      console.log('进来这里', delNode)
       successorParent.left = successor.right
       successor.right = delNode.right
     }
