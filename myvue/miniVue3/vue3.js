@@ -1,5 +1,3 @@
-// const { effect, reactive } = Reactive();
-
 function isFunction(ob) {
   return typeof ob === "function";
 }

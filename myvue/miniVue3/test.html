@@ -34,8 +34,13 @@
     //  }
     //});
 
-    const af = computed(() => {
-      return state.name + '-----aaa'
+    const af = computed({
+      get () {
+        return state.name
+      },
+      set (value) {
+        state.name = 'hellow'
+      },
     });
 
     effect(() => {
@@ -44,7 +49,7 @@
 
 
     setTimeout(() => {
-      state.name = 'good'
+      af.value = "goood"
     }, 1000)
 
     // const cf = computed({
