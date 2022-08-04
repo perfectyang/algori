@@ -1,10 +1,4 @@
-
-
-
-
-
-
-
+// 并行限制请求
 const limitParallelAsync = (limit) => {
   const queue = []
   let activeCount = 0

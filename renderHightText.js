@@ -7,6 +7,7 @@ function renderHightText(originText, target) {
   const totalLen = originText.length;
   const result = [];
   let i = 0;
+  console.log('matchText', originText, i, moveLen)
   while ((i + moveLen) <= totalLen) {
     const matchText = originText.substr(i, moveLen);
     if (matchText.indexOf(target) > -1) {
@@ -23,8 +24,8 @@ function renderHightText(originText, target) {
   return result.join('');
 }
 
-const originText = '555'
-const target = '5555'
+const originText = '5555'
+const target = '55'
 const result = renderHightText(originText, target)
 
 console.log(result)
