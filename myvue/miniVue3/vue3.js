@@ -48,6 +48,7 @@ class EffectActive {
     this.parent = null;
     this.deps = [];
     this.scheduler = scheduler;
+    this.active = true;
   }
 
   run() {
@@ -58,6 +59,13 @@ class EffectActive {
       return this.fn();
     } finally {
       activeEffect = this.parent;
+    }
+  }
+
+  stop() {
+    if (this.active) {
+      this.active = false;
+      clearupEffect(this);
     }
   }
 }
@@ -79,6 +87,10 @@ function track(target, key) {
   if (!dep) {
     depsMap.set(key, (dep = new Set()));
   }
+  trackEffects(dep);
+}
+
+function trackEffects(dep) {
   const shouldTrack = !dep.has(activeEffect);
   if (shouldTrack) {
     dep.add(activeEffect);
@@ -91,17 +103,21 @@ function trigger(target, key, value) {
   if (!depsMap) return;
   let effects = depsMap.get(key);
   if (effects) {
-    effects = new Set(effects);
-    effects.forEach((effect) => {
-      if (effect !== activeEffect) {
-        if (effect.scheduler) {
-          effect.scheduler();
-        } else {
-          effect.run();
-        }
-      }
-    });
+    triggerEffects(effects);
   }
+}
+
+function triggerEffects(effects) {
+  effects = new Set(effects);
+  effects.forEach((effect) => {
+    if (effect !== activeEffect) {
+      if (effect.scheduler) {
+        effect.scheduler();
+      } else {
+        effect.run();
+      }
+    }
+  });
 }
 
 function effect(fn, options = {}) {
@@ -117,16 +133,17 @@ class ComputedRef {
     this._value = null;
     this._dirty = true;
     this.setter = setter;
+    this.deps = new Set([]);
     this.effect = new EffectActive(getter, () => {
       if (!this._dirty) {
         this._dirty = true;
-        trigger(this, "value");
+        triggerEffects(this.deps);
       }
     });
   }
 
   get value() {
-    track(this, "value");
+    trackEffects(this.deps);
     if (this._dirty) {
       this._dirty = false;
       this._value = this.effect.run();
