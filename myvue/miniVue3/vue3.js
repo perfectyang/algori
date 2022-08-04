@@ -1,5 +1,13 @@
 // const { effect, reactive } = Reactive();
 
+function isFunction(ob) {
+  return typeof ob === "function";
+}
+
+function isObject(ob) {
+  return typeof ob === "object" && ob !== "null";
+}
+
 let activeEffect = null;
 const targetWeakMap = new WeakMap();
 
@@ -104,4 +112,46 @@ function effect(fn, options = {}) {
   const runner = _effect.run.bind(_effect);
   runner.effect = _effect;
   return runner;
+}
+
+class ComputedRef {
+  constructor(getter, setter) {
+    this._value = null;
+    this._dirty = true;
+    this.setter = setter;
+    this.effect = new EffectActive(getter, () => {
+      if (!this._dirty) {
+        this._dirty = true;
+        trigger(this, "value");
+      }
+    });
+  }
+
+  get value() {
+    track(this, "value");
+    if (this._dirty) {
+      this._dirty = false;
+      this._value = this.effect.run();
+    }
+    return this._value;
+  }
+
+  set value(value) {
+    this.setter(value);
+  }
+}
+
+function computed(getterOrOptions) {
+  let getter;
+  let setter;
+  if (isFunction(getterOrOptions)) {
+    getter = getterOrOptions;
+    setter = () => {
+      console.warn("no setter");
+    };
+  } else {
+    getter = getterOrOptions.get;
+    setter = getterOrOptions.set;
+  }
+  return new ComputedRef(getter, setter);
 }

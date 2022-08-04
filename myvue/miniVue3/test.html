@@ -20,25 +20,43 @@
     let waiting = false
 
     const dom = document.getElementById("app");
-    const runner = effect(() => {
-      dom.innerHTML = state.name + "-----" + state.age;
-    }, {
-      scheduler: () => {
-        if (!waiting) {
-          waiting = true
-          setTimeout(() => {
-            waiting = false
-            runner()
-          }, 3000)
-        }
-      }
+    //const runner = effect(() => {
+    //  dom.innerHTML = state.name + "-----" + state.age;
+    //}, {
+    //  scheduler: () => {
+    //    if (!waiting) {
+    //      waiting = true
+    //      setTimeout(() => {
+    //        waiting = false
+    //        runner()
+    //      }, 3000)
+    //    }
+    //  }
+    //});
+
+    const af = computed(() => {
+      return state.name + '-----aaa'
     });
 
-    state.name = 'goood'
-    state.name = 'goood1'
-    state.name = 'goood2'
-    state.name = 'goood3'
-    state.name = 'goood4'
+    effect(() => {
+      dom.innerHTML = af.value + '-----'
+    })
+
+
+    setTimeout(() => {
+      state.name = 'good'
+    }, 1000)
+
+    // const cf = computed({
+    //   get () {
+    //     return state.name + 'aaa'
+    //   },
+    //   set (val) {
+    //     state.name = val
+    //   }
+    // })
+
+
 
 
 
