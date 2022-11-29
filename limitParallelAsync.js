@@ -58,6 +58,27 @@ Promise.all(arr).then(rs => {
 })
 
 
+// 是否正在刷新的标记
+let isRefreshing = false
+//重试队列
+let requests = []
+export function runPromise(fn) {
+  if (!isRefreshing) {
+    isRefreshing = true
+    requests.push(fn)
+    //调用刷新token的接口
+    refreshToken().then(res => {
+      // token 刷新后将数组的方法重新执行
+      requests.forEach((cb) => cb())
+      requests = [] // 重新请求完清空
+      isRefreshing = false
+    }).catch(_ => {
+      isRefreshing = false
+    })
+  } else {
+    requests.push(fn)
+  }
+}
 
 
 
