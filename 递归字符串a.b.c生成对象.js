@@ -30,43 +30,46 @@ const readList = (ob) => {
   return newOb;
 };
 
-// const getStr = (target) => {
-//   const getNest = (key) => {
-//     const idx = key.lastIndexOf(".");
-//     const value = target[key];
-//     console.log("key", key, value);
-//     if (idx !== -1) {
-//       delete target[key];
-//       const prefixKey = key.substring(0, idx);
-//       const restKey = key.substring(idx + 1);
-//       if (typeof target[prefixKey] !== "object") {
-//         target[prefixKey] = {
-//           [restKey]: value,
-//         };
-//       } else {
-//         target[prefixKey][restKey] = value;
-//       }
-//       console.log("prefixKey", prefixKey);
-//       if (/\./.test(prefixKey)) {
-//         console.log("埋来");
-//         getNest(prefixKey);
-//       }
-//     }
-//   };
-
-//   // Object.keys(target).forEach((key) => {
-//   //   getNest(key);
-//   // });
-//   for (const key in target) {
-//     getNest(key);
-//   }
-
-//   return target;
-// };
-
-getStr(arr);
-console.log("str", JSON.stringify(arr, 2));
-
 // const demo = "a.b.c.d.e.f";
 // const ret = cutString(demo, "perfectyang");
 // console.log(JSON.stringify(ret, 2));
+
+class GenerateOb {
+  constructor() {
+    this.node = {};
+  }
+  insert(word, value) {
+    let node = this.node;
+    const len = word.length - 1;
+    word.forEach((w, idx) => {
+      if (!node[w]) {
+        node[w] = {};
+      }
+      if (idx === len) {
+        console.log("len", len, w, value);
+        node[w] = value;
+      } else {
+        node = node[w];
+      }
+    });
+  }
+}
+
+const strTries = new GenerateOb();
+
+const obTest = {
+  "a.b.c.d": "perfectyang",
+  "a.b.d": "same",
+  "a.d.xx": "ehheje",
+  "b.e": "ae",
+};
+
+const generate = (ob) => {
+  Object.keys(ob).forEach((cur) => {
+    const str = cur.split(".");
+    strTries.insert(str, ob[cur]);
+  });
+};
+
+generate(obTest);
+console.log(strTries.node);
