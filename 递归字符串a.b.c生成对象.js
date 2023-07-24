@@ -46,7 +46,6 @@ class GenerateOb {
         node[w] = {};
       }
       if (idx === len) {
-        console.log("len", len, w, value);
         node[w] = value;
       } else {
         node = node[w];
@@ -59,6 +58,7 @@ const strTries = new GenerateOb();
 
 const obTest = {
   "a.b.c.d": "perfectyang",
+  "a.b.c.f": "perfectyang",
   "a.b.d": "same",
   "a.d.xx": "ehheje",
   "b.e": "ae",
@@ -72,4 +72,4 @@ const generate = (ob) => {
 };
 
 generate(obTest);
-console.log(strTries.node);
+console.log(JSON.stringify(strTries.node, 2));

@@ -28,14 +28,16 @@ class Tries {
   }
 }
 
-// strTries.insert('a')
-// strTries.insert('b')
-// strTries.insert('c')
-// strTries.insert('d')
+const strTries = new Tries();
+strTries.insert("abc");
+strTries.insert("b");
+strTries.insert("bcd");
+strTries.insert("c");
+strTries.insert("d");
 
 // tries.insert('没朋友在这里')
 // tries.insert('aac')
-// console.log(tries.print())
+console.log(strTries.print());
 // console.log(tries.search('aac'))
 
 // const target = "55";
