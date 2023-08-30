@@ -111,10 +111,16 @@ const MapData = {
   },
   txt: undefined,
   text2: "asdf",
-  filter: [],
+  filter: [
+    {
+      a: "aaa",
+      b: "bbb",
+    },
+  ],
   text: 0,
 };
 const { texts, map, recordMap: hashMap } = getTextsAndMap(MapData);
+console.log(hashMap);
 
 // 过滤对象或组数的中指定类型
 const judageType = (val) =>
@@ -135,4 +141,4 @@ const compObject = (ob) => {
 };
 
 const ret = compObject(MapData);
-console.log("ret", ret);
+// console.log("ret", ret);
