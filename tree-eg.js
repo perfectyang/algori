@@ -29,7 +29,6 @@ const json = {
 // 深度遍历树
 
 function trvaseDeep(obj) {
-  console.log(obj.state);
   if (obj.children) {
     obj.children.forEach((cur) => trvaseDeep(cur));
   }

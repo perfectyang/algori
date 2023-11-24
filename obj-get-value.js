@@ -45,15 +45,15 @@ var data = [
   },
 ];
 
-function getTextsAndMap(data, prefix = "") {
+function gettextsandmap(data, prefix = "") {
   let texts = [];
   let map = [];
-  for (const [key, value] of Object.entries(data)) {
+  for (const [key, value] of object.entries(data)) {
     const name = prefix ? prefix + "." + key : key;
     if (typeof value === "object") {
-      const { texts: sTexts, map: sMap } = getTextsAndMap(value, name);
-      texts = texts.concat(sTexts);
-      map = map.concat(sMap);
+      const { texts: stexts, map: smap } = gettextsandmap(value, name);
+      texts = texts.concat(stexts);
+      map = map.concat(smap);
     } else {
       if (value) {
         texts.push(value);
@@ -73,7 +73,7 @@ function getTextsAndMap(data, prefix = "", recordMap = {}) {
       const { texts: sTexts, map: sMap } = getTextsAndMap(
         value,
         name,
-        recordMap
+        recordMap,
       );
       texts = texts.concat(sTexts);
       map = map.concat(sMap);
@@ -136,7 +136,7 @@ const compObject = (ob) => {
       }
       return acc;
     },
-    Array.isArray(val) ? [] : {}
+    Array.isArray(val) ? [] : {},
   );
 };
 
