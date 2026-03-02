@@ -26,23 +26,23 @@ export default {
   props: {
     selectElementClass: {
       type: String,
-      default: ''
+      default: "",
     },
     checkedClass: {
       type: String,
-      default: ''
-    }
+      default: "",
+    },
   },
   data() {
     return {
       mouseStopId: undefined,
-      mouseOn: false
-    }
+      mouseOn: false,
+    };
   },
-  mounted () {
+  mounted() {
     document.addEventListener("mouseup", this.handleMouseUp);
   },
-  destroyed () {
+  destroyed() {
     document.removeEventListener("mouseup", this.handleMouseUp);
   },
   methods: {
@@ -50,7 +50,7 @@ export default {
       alert(JSON.stringify(todoList));
     },
     handleMouseDown(e) {
-      this.$emit('startDrag')
+      this.$emit("startDrag");
       // 判断是否为鼠标左键被按下
       if (e.buttons !== 1 || e.which !== 1) return;
       this.mouseStopId = window.setTimeout(() => {
@@ -87,7 +87,7 @@ export default {
           rect.bottom < top ||
           rect.right < left ||
           rect.left > right
-        )
+        );
         selList[i].classList[isIntersect ? "add" : "remove"](this.checkedClass);
       }
     },
@@ -100,7 +100,7 @@ export default {
       const { bottom, left, right, top } = $select.getBoundingClientRect();
       const todoList = [];
       for (let i = 0; i < selList.length; i++) {
-        const nodeEl = selList[i]
+        const nodeEl = selList[i];
         const rect = nodeEl.getBoundingClientRect();
         const isIntersect = !(
           rect.top > bottom ||
@@ -109,14 +109,14 @@ export default {
           rect.left > right
         );
         if (isIntersect) {
-          todoList.push(nodeEl.getAttribute('data-id'));
+          todoList.push(nodeEl.getAttribute("data-id"));
         }
       }
       $select.style.display = "none";
       //批量操作
-      this.$emit('endDrag', todoList)
-    }
-  }
+      this.$emit("endDrag", todoList);
+    },
+  },
 };
 </script>
 

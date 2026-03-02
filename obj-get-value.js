@@ -45,15 +45,15 @@ var data = [
   },
 ];
 
-function getTextsAndMap(data, prefix = "") {
+function gettextsandmap(data, prefix = "") {
   let texts = [];
   let map = [];
-  for (const [key, value] of Object.entries(data)) {
+  for (const [key, value] of object.entries(data)) {
     const name = prefix ? prefix + "." + key : key;
     if (typeof value === "object") {
-      const { texts: sTexts, map: sMap } = getTextsAndMap(value, name);
-      texts = texts.concat(sTexts);
-      map = map.concat(sMap);
+      const { texts: stexts, map: smap } = gettextsandmap(value, name);
+      texts = texts.concat(stexts);
+      map = map.concat(smap);
     } else {
       if (value) {
         texts.push(value);
@@ -73,7 +73,7 @@ function getTextsAndMap(data, prefix = "", recordMap = {}) {
       const { texts: sTexts, map: sMap } = getTextsAndMap(
         value,
         name,
-        recordMap
+        recordMap,
       );
       texts = texts.concat(sTexts);
       map = map.concat(sMap);
@@ -111,10 +111,16 @@ const MapData = {
   },
   txt: undefined,
   text2: "asdf",
-  filter: [],
+  filter: [
+    {
+      a: "aaa",
+      b: "bbb",
+    },
+  ],
   text: 0,
 };
 const { texts, map, recordMap: hashMap } = getTextsAndMap(MapData);
+console.log(hashMap);
 
 // 过滤对象或组数的中指定类型
 const judageType = (val) =>
@@ -130,97 +136,9 @@ const compObject = (ob) => {
       }
       return acc;
     },
-    Array.isArray(val) ? [] : {}
+    Array.isArray(val) ? [] : {},
   );
 };
 
 const ret = compObject(MapData);
-console.log("ret", ret);
-
-const tree = [
-  {
-    a: [
-      {
-        b: "a-b",
-      },
-      {
-        c: "a-c",
-      },
-    ],
-  },
-];
-
-// const { texts: a, map: b, recordMap: c } = getTextsAndMap(tree);
-// console.log(a, b, c);
-
-const path = { "0.a.0.b": "a-b", "0.a.1.c": "a-c" };
-const pathArr = "0.a.0.b".split(".");
-// [{ a: [{ b: "xxx" }] }];
-// 0 ---> [] parent = []
-// a ----> [{a: undefined}]
-// 0 ---->  [{a: []}]
-// b -----> [{a: [{b: undefined}]}]
-let parent = null;
-let pointer = null;
-let i = 0;
-const len = pathArr.length;
-while (i < len) {
-  const key = pathArr[i];
-  if (!(i % 2)) {
-    if (!parent) {
-      parent = [];
-    } else {
-      parent.push(pointer);
-    }
-  } else {
-    pointer = { [key]: undefined };
-  }
-  i++;
-}
-console.log(parent);
-
-// console.log(pathArr);
-
-// const cutString = (str, value) => {
-//   const idx = str.lastIndexOf(".");
-//   if (idx > -1) {
-//     const prefix = str.substring(0, idx);
-//     const key = str.substring(idx + 1);
-//     const tmp = {
-//         [key]: value,
-//       };
-//     return cutString(prefix, tmp);
-//   } else {
-//     return typeof Number(str) === "number"
-//       ? []
-//       : {
-//           [str]: value,
-//         };
-//   }
-// };
-
-// const ob = {
-//   "a.b.c.d": "perfectyang",
-//   "a.b.d": "same",
-//   "a.d.xx": "ehheje",
-//   "b.e": "ae",
-// };
-
-// // const len = pathArr.length;
-// // let i = 0;
-// // let pointer = null;
-// // let parent = null;
-// // while (i < len) {
-// //   const key = pathArr[i];
-// //   console.log(pointer);
-// //   if (typeof Number(key) === "number") {
-// //     console.log(key);
-// //     pointer = [];
-// //   } else {
-// //     const temp = { [key]: [] };
-// //     pointer.push(temp);
-// //     pointer = temp[key];
-// //   }
-// //   console.log(pointer);
-// //   i++;
-// // }
+// console.log("ret", ret);

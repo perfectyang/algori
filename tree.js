@@ -58,6 +58,7 @@ class Tree {
     }
     return current
   }
+  
 
   binarySearch (cb) {
     if (!this.root) return -1

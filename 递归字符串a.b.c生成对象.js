@@ -30,43 +30,109 @@ const readList = (ob) => {
   return newOb;
 };
 
-// const getStr = (target) => {
-//   const getNest = (key) => {
-//     const idx = key.lastIndexOf(".");
-//     const value = target[key];
-//     console.log("key", key, value);
-//     if (idx !== -1) {
-//       delete target[key];
-//       const prefixKey = key.substring(0, idx);
-//       const restKey = key.substring(idx + 1);
-//       if (typeof target[prefixKey] !== "object") {
-//         target[prefixKey] = {
-//           [restKey]: value,
-//         };
-//       } else {
-//         target[prefixKey][restKey] = value;
-//       }
-//       console.log("prefixKey", prefixKey);
-//       if (/\./.test(prefixKey)) {
-//         console.log("埋来");
-//         getNest(prefixKey);
-//       }
-//     }
-//   };
+// const demo = "a.b.c.d.e.f";
+// const ret = cutString(demo, "perfectyang");
+// console.log(JSON.stringify(ret, 2));
 
-//   // Object.keys(target).forEach((key) => {
-//   //   getNest(key);
-//   // });
-//   for (const key in target) {
-//     getNest(key);
-//   }
+class GenerateOb {
+  constructor() {
+    this.node = {};
+  }
+  insert(word, value) {
+    let node = this.node;
+    const len = word.length - 1;
+    word.forEach((w, idx) => {
+      if (!node[w]) {
+        node[w] = {};
+      }
+      if (idx === len) {
+        node[w] = value;
+      } else {
+        node = node[w];
+      }
+    });
+  }
+}
 
-//   return target;
-// };
+const strTries = new GenerateOb();
 
-// getStr(arr);
-// console.log("str", JSON.stringify(arr, 2));
+const obTest = {
+  "a.b.c.d": "perfectyang",
+  "a.b.c.f": "perfectyang",
+  "a.b.d": "same",
+  "a.d.xx": "ehheje",
+  "b.e": "ae",
+};
 
-const demo = "a.b.c.d.e.f";
-const ret = cutString(demo, "perfectyang");
-console.log(JSON.stringify(ret, 2));
+const generate = (ob) => {
+  Object.keys(ob).forEach((cur) => {
+    const str = cur.split(".");
+    strTries.insert(str, ob[cur]);
+  });
+};
+
+generate(obTest);
+console.log(JSON.stringify(strTries.node, 2));
+
+// ------------根据路径生成对象数组
+function isObject(value) {
+  const type = typeof value;
+  return value != null && (type === "object" || type === "function");
+}
+
+const MAX_SAFE_INTEGER = 9007199254740991;
+const reIsUint = /^(?:0|[1-9]\d*)$/;
+function isIndex(value, length) {
+  const type = typeof value;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return (
+    !!length &&
+    (type === "number" || (type !== "symbol" && reIsUint.test(value))) &&
+    value > -1 &&
+    value % 1 == 0 &&
+    value < length
+  );
+}
+
+// {} 'a.b[0].c'  1
+function baseSet(object, _path, value) {
+  const path = _path.split("."); // ['a', 'b', '0', 'c']
+  const length = path.length;
+  const lastIndex = length - 1;
+  let index = -1;
+  let nested = object; // {}
+  while (nested != null && ++index < length) {
+    const key = path[index];
+    let newValue = value;
+    if (index != lastIndex) {
+      const objValue = nested[key];
+      newValue = undefined;
+      if (newValue === undefined) {
+        newValue = isObject(objValue)
+          ? objValue
+          : isIndex(path[index + 1])
+          ? []
+          : {};
+      }
+    }
+    nested[key] = newValue;
+    nested = nested[key];
+  }
+  return object;
+}
+
+const result = [];
+const info = {
+  "0.b.0.c": 1,
+  "0.b.0.d": 33,
+  "0.b.1.c": 1,
+  "1.b.0.c": 1,
+  "1.b.0.d": 33,
+  "1.b.1.c": 1,
+};
+
+Object.entries(info).forEach(([key, value]) => {
+  baseSet(result, key, value);
+});
+
+console.log(JSON.stringify(result));
