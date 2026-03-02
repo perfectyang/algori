@@ -136,3 +136,91 @@ const compObject = (ob) => {
 
 const ret = compObject(MapData);
 console.log("ret", ret);
+
+const tree = [
+  {
+    a: [
+      {
+        b: "a-b",
+      },
+      {
+        c: "a-c",
+      },
+    ],
+  },
+];
+
+// const { texts: a, map: b, recordMap: c } = getTextsAndMap(tree);
+// console.log(a, b, c);
+
+const path = { "0.a.0.b": "a-b", "0.a.1.c": "a-c" };
+const pathArr = "0.a.0.b".split(".");
+// [{ a: [{ b: "xxx" }] }];
+// 0 ---> [] parent = []
+// a ----> [{a: undefined}]
+// 0 ---->  [{a: []}]
+// b -----> [{a: [{b: undefined}]}]
+let parent = null;
+let pointer = null;
+let i = 0;
+const len = pathArr.length;
+while (i < len) {
+  const key = pathArr[i];
+  if (!(i % 2)) {
+    if (!parent) {
+      parent = [];
+    } else {
+      parent.push(pointer);
+    }
+  } else {
+    pointer = { [key]: undefined };
+  }
+  i++;
+}
+console.log(parent);
+
+// console.log(pathArr);
+
+// const cutString = (str, value) => {
+//   const idx = str.lastIndexOf(".");
+//   if (idx > -1) {
+//     const prefix = str.substring(0, idx);
+//     const key = str.substring(idx + 1);
+//     const tmp = {
+//         [key]: value,
+//       };
+//     return cutString(prefix, tmp);
+//   } else {
+//     return typeof Number(str) === "number"
+//       ? []
+//       : {
+//           [str]: value,
+//         };
+//   }
+// };
+
+// const ob = {
+//   "a.b.c.d": "perfectyang",
+//   "a.b.d": "same",
+//   "a.d.xx": "ehheje",
+//   "b.e": "ae",
+// };
+
+// // const len = pathArr.length;
+// // let i = 0;
+// // let pointer = null;
+// // let parent = null;
+// // while (i < len) {
+// //   const key = pathArr[i];
+// //   console.log(pointer);
+// //   if (typeof Number(key) === "number") {
+// //     console.log(key);
+// //     pointer = [];
+// //   } else {
+// //     const temp = { [key]: [] };
+// //     pointer.push(temp);
+// //     pointer = temp[key];
+// //   }
+// //   console.log(pointer);
+// //   i++;
+// // }

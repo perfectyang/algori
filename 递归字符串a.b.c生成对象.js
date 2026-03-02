@@ -64,9 +64,9 @@ const readList = (ob) => {
 //   return target;
 // };
 
-getStr(arr);
-console.log("str", JSON.stringify(arr, 2));
+// getStr(arr);
+// console.log("str", JSON.stringify(arr, 2));
 
-// const demo = "a.b.c.d.e.f";
-// const ret = cutString(demo, "perfectyang");
-// console.log(JSON.stringify(ret, 2));
+const demo = "a.b.c.d.e.f";
+const ret = cutString(demo, "perfectyang");
+console.log(JSON.stringify(ret, 2));
